@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="62">
+  <logicalFolder name="root" displayName="root" projectFiles="true">
+    <df name="mdmgrasp_current" root=".">
+      <df name="include">
+        <in>arvore.h</in>
+        <in>clock.h</in>
+        <in>grasp.h</in>
+        <in>grasprm.h</in>
+        <in>main.h</in>
+        <in>params.h</in>
+        <in>pool.h</in>
+        <in>random.h</in>
+        <in>solucao.h</in>
+        <in>types.h</in>
+        <in>utils.h</in>
+      </df>
+      <df name="lib">
+        <in>arvore.cpp</in>
+        <in>clock.cpp</in>
+        <in>params.cpp</in>
+        <in>pool.cpp</in>
+        <in>random.cpp</in>
+        <in>utils.cpp</in>
+      </df>
+      <df name="md">
+        <in>bibrand.c</in>
+        <in>bibrand.h</in>
+        <in>buffer.cpp</in>
+        <in>buffer.h</in>
+        <in>common.h</in>
+        <in>data.cpp</in>
+        <in>data.h</in>
+        <in>fp_node.cpp</in>
+        <in>fp_node.h</in>
+        <in>fp_tree.cpp</in>
+        <in>fp_tree.h</in>
+        <in>fpmax.cpp</in>
+        <in>fpmax_hnmp.cpp</in>
+        <in>fsout.cpp</in>
+        <in>fsout.h</in>
+      </df>
+      <in>grasp.cpp</in>
+      <in>grasprm.cpp</in>
+      <in>main.cpp</in>
+      <in>solucao.cpp</in>
+    </df>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false">
+      <itemPath>Makefile</itemPath>
+      <itemPath>Makefile-mdmgrasp_current.mk</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceRootList>
+    <Elem>.</Elem>
+  </sourceRootList>
+  <projectmakefile>Makefile-mdmgrasp_current.mk</projectmakefile>
+  <confs>
+    <conf name="Default" type="0">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>GNU|GNU</compilerSet>
+        <platform>2</platform>
+      </toolsSet>
+      <makefileType>
+        <makeTool>
+          <buildCommandWorkingDir>.</buildCommandWorkingDir>
+          <buildCommand>$(MAKE) -f Makefile</buildCommand>
+          <cleanCommand>$(MAKE) -f Makefile clean</cleanCommand>
+          <executablePath></executablePath>
+        </makeTool>
+      </makefileType>
+      <folder path="mdmgrasp_current/lib">
+        <ccTool>
+          <incDir>
+            <pElem>include</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
+      <item path="grasp.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>include</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="grasprm.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>include</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="main.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>include</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="solucao.cpp" ex="false" tool="1">
+        <ccTool>
+          <incDir>
+            <pElem>include</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>

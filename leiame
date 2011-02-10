@@ -1,0 +1,6 @@
+Para compilar basta executar make, que ira gerar o executavel graspmcast.
+Eh necessario compilar os programas de mineracao que estao na pasta md (tambem basta executar make nesta pasta)
+Caso o programa graspmcast esteja em uma pasta X, os programas de mineracao devem ser colocados na pasta X/md.
+
+Qualquer duvida: lsantos@ic.uff.br
+Filipe.

@@ -1,0 +1,25 @@
+O arquivo de instancias tem o seguinte formato:
+
+* a 1a linha indica o numero de fontes;
+* Depois temos a indicacao de quais sao as fontes e o seu numero de arestas
+* Cada fonte eh seguida pela indicacao das arestas de origem, destino e o custo da ligacao
+
+Exemplo:
+
+001) 50
+002) 201 137
+003) 206 6 27
+004) 6 116 6
+005) 116 12 1
+[...]
+140) 206 143
+141) 201 1 68
+142) 1 109 5
+143) 109 159 3
+144) 159 12 4
+[...]
+
+Na linha 1) temos o numero de fontes, 50.
+A linha 2) indica o primeiro no usado como fonte (201) e o numero de arestas que ele possui (137).
+Nas linhas 3), 4), 5), ... 139) estao indicados a origem, destino e custo das arestas. Assim, a linha 5) indica uma aresta com origem em 116, destino 12 e custo 1.
+Na linha 140) esta a definicao de uma outra fonte, seguido pela definicao de suas arestas nas linhas seguintes.
