@@ -27,6 +27,8 @@ protected:
   
   PSOLUCAO  Construcao   (int iter_cor, const vector<int>* sol_parcial = NULL);
   PSOLUCAO  BuscaLocal   (PSOLUCAO sol, int& qtd_bl);
+  PSOLUCAO  BuscaLocalQueRemoveElementos   (PSOLUCAO sol, int& qtd_bl, int numero_elementos_remover);
+  bool proxima_comb(int comb[], int k, int n);
 
 public:
   GRASPRM (char* arq_instancia, int m, int n_iter, int sem, int alf, int pct, int te, 

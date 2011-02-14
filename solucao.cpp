@@ -8,7 +8,7 @@ using namespace std;
 
 bool ParHash::operator < (const ParHash& dir) const
 {
-    /** Compara inicialmente o custo da solução */
+    /** Compara inicialmente o custo da soluï¿½ï¿½o */
     if (valor < dir.valor)
         return true;
     if (valor > dir.valor)
@@ -56,6 +56,21 @@ bool SOLUCAO::Adic (int comp)
   }
 
   return false;
+}
+
+bool SOLUCAO::Remove (int comp)
+{
+    if (M.size() > 0) {
+        N_M.push_back(comp);
+        ValSol = -1;
+        vector<int>::iterator it = find(M.begin(), M.end(), comp);
+        M.erase(it);
+        for (vector<ARVORE*>::iterator it = grasp->arvores.begin(); it != grasp->arvores.end(); it++)
+            (*it)->tiraReplica(comp);
+
+        return true; 
+    }
+    return false;
 }
 
 void SOLUCAO::Troca (int m_idx, int roteador)

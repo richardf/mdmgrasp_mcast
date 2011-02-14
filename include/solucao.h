@@ -5,13 +5,13 @@
 #include <vector>
 #include <iostream>
 
-#define MULTIPLICADOR_HASH 37 //número primo para cálculo do hash
+#define MULTIPLICADOR_HASH 37 //nï¿½mero primo para cï¿½lculo do hash
 
 using namespace std;
 
 class GRASPRM;
 
-/** Par com custo da solução e seu valor hash, usado para filtrar repetições */
+/** Par com custo da soluï¿½ï¿½o e seu valor hash, usado para filtrar repetiï¿½ï¿½es */
 class ParHash
 {
     public:
@@ -43,8 +43,9 @@ public:
   double      Valor         ();
 
   bool       Adic  (int elem);
+  bool       Remove(int elem);
 
-  ParHash&   Hash();	        //retorna o valor hash da solução
+  ParHash&   Hash();	        //retorna o valor hash da soluï¿½ï¿½o
 
   std::vector<int> tovector();
 

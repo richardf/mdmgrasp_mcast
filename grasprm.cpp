@@ -15,7 +15,7 @@
 using namespace std;
 
 /**
-* Verifica se o double A é menor que o double B, considerando um erro epsilon.
+* Verifica se o double A ï¿½ menor que o double B, considerando um erro epsilon.
 * Knuth, Art of computer programming
 */
 bool defLessThan(double a, double b)
@@ -74,7 +74,7 @@ void GRASPRM::ReconheceVizinhos(int roteador, vector<int>& vizinhos) {
    //cout << "\n";
 }
 
-// Monta as árvores multicast
+// Monta as ï¿½rvores multicast
 void GRASPRM::ConstroiArvores (char* arq_instancia)
 {
   vector<ARESTA> arestas;
@@ -119,7 +119,7 @@ GRASPRM::GRASPRM (char* arq_instancia, int m, int n_iter, int sem, int alf, int 
 }
 
 GRASPRM::~GRASPRM() {
-  // Destroi as árvores
+  // Destroi as ï¿½rvores
   vector<ARVORE*>::iterator i;
   for(i = arvores.begin(); i != arvores.end(); i++)
      delete *i;
@@ -127,7 +127,7 @@ GRASPRM::~GRASPRM() {
 
 void GRASPRM::Inicializacao ()
 {
-  // Imprime dados iniciais da execução
+  // Imprime dados iniciais da execuï¿½ï¿½o
   cout << "semente: " << semente << "\n";
 
   //inicializa a semente aleatoria
@@ -136,12 +136,12 @@ void GRASPRM::Inicializacao ()
 
 void GRASPRM::Finalizacao (PSOLUCAO sol)
 {
-  // Imprime dados finais da execução
+  // Imprime dados finais da execuï¿½ï¿½o
 }
 
 void GRASPRM::DepoisConstrucao (int iter_cor, PSOLUCAO sol)
 {
-  // Retorna as árvores aos estados iniciais (A solução faz isso qdo eh criada)
+  // Retorna as ï¿½rvores aos estados iniciais (A soluï¿½ï¿½o faz isso qdo eh criada)
   /* vector<ARVORE*>::iterator i;
 
   for(i = arvores.begin(); i != arvores.end(); i++)
@@ -151,7 +151,7 @@ void GRASPRM::DepoisConstrucao (int iter_cor, PSOLUCAO sol)
 PSOLUCAO GRASPRM::Construcao (int iter_cor, const vector<int>* sol_parcial)
 {
   unsigned int    ultimo;      // indice do ultimo candidato que pertence a LRC
-  float           minimo;      // valor mínimo para um candidato entrar na LRC
+  float           minimo;      // valor mï¿½nimo para um candidato entrar na LRC
   vector< pair<int,float> > CustosOrd;  // Custos dos roteadores candidatos em ordem decrescente
   PSOLUCAO        sol;         // Guarda a solucao construida
   int             i,x;
@@ -160,11 +160,11 @@ PSOLUCAO GRASPRM::Construcao (int iter_cor, const vector<int>* sol_parcial)
 
   // Cria uma nova solucao
   sol = new SOLUCAO(this);
-  // Inicia a solução com os elementos da solução parcial
+  // Inicia a soluï¿½ï¿½o com os elementos da soluï¿½ï¿½o parcial
   j = 0;
   if(sol_parcial != NULL) {
      j = sol_parcial->size();
-     //printf("Padrão usado: ");
+     //printf("Padrï¿½o usado: ");
      for(unsigned int i = 0; i < j; i++) {
      //    printf("%d ", (*sol_parcial)[i]);
          sol->Adic ((*sol_parcial)[i]);
@@ -176,12 +176,12 @@ PSOLUCAO GRASPRM::Construcao (int iter_cor, const vector<int>* sol_parcial)
     // Para cada roteador candidato
     for (i = 0; i < sol->DiffQuant(); i++) {
       custo_aux = 0;
-      //cout << "Nó que será avaliado: " << sol->Diff(i) << "\n";
+      //cout << "Nï¿½ que serï¿½ avaliado: " << sol->Diff(i) << "\n";
 
-      // Para cada árvore
+      // Para cada ï¿½rvore
       for(unsigned int a = 0; a < arvores.size(); a++) {
          custo_aux += (arvores[a])->CustoNo(sol->Diff(i));
-	 //cout << "\tCusto na árvore \"" << a << "\": " << (arvores[a])->CustoNo(sol->Diff(i)) << "\n";
+	 //cout << "\tCusto na ï¿½rvore \"" << a << "\": " << (arvores[a])->CustoNo(sol->Diff(i)) << "\n";
       }
 
       // cout << "\tTOTAL: " << custo_aux << "\n";
@@ -190,7 +190,7 @@ PSOLUCAO GRASPRM::Construcao (int iter_cor, const vector<int>* sol_parcial)
 
     }
 
-    // Calcula valor mínimo para entrar na LRC
+    // Calcula valor mï¿½nimo para entrar na LRC
     minimo = alfa * CustosOrd[0].second;
 
     //cout << "MINIMO PARA ENTRAR NA RCL: " << minimo;
@@ -273,4 +273,109 @@ PSOLUCAO ExecGRASPMD (char* arq_instancia, int m, int n_iter, int sem, int alfa,
     sol = NULL;
 
   return sol;
+}
+/**
+ * Gera a proxima combinacao de N elementos
+ *
+ * @param comb  A combinacao anterior
+ * @param   k   O tamanho dos subconjuntos a gerar
+ * @param   n   O tamanho do conjunto original
+ * @return      1 se uma combinacao valida foi gerada. 0 caso contrario
+ **/
+bool proxima_comb(int comb[], int k, int n)
+{
+    int i = k - 1;
+    ++comb[i];
+
+    while ((i > 0) && (comb[i] >= n - k + 1 + i)) {
+        --i;
+        ++comb[i];
+    }
+
+    if (comb[0] > n - k) /* Combinacao (n-k, n-k+1, ..., n) atingida */
+        return false; /* Nao existem mais combinacoes */
+
+    /* comb esta assim (..., x, n, n, n, ..., n).
+    Ficara assim: (..., x, x + 1, x + 2, ...) */
+    for (i = i + 1; i < k; ++i)
+        comb[i] = comb[i - 1] + 1;
+
+    return true;
+}
+
+/**
+ * Essa busca local remove k elementos da solucao, que sera completada
+ * novamente pela fase de construcao.
+ **/
+PSOLUCAO GRASPRM::BuscaLocalQueRemoveElementos(PSOLUCAO sol, int& qtd_bl, int numero_elementos_remover)
+{
+    int tamanho_da_sol = sol->Quant(); 
+    int comb[numero_elementos_remover]; /* comb[i] eh o indice do i-esimo elemento da combinacao.
+                                         * Este vetor indica os elementos que serao removidos da solucao */
+    int elems_remover[numero_elementos_remover];
+    double val_sol;
+
+
+    /* Prepara comb para a combinacao inicial */
+    for (int i = 0; i < numero_elementos_remover; ++i)
+        comb[i] = i;
+
+
+    bool tem_mais_combinacoes = true;
+
+    while(tem_mais_combinacoes) {
+
+        val_sol = sol->Valor();
+        
+        /* separa os elementos a serem removidos */
+        for(int i=0; i < numero_elementos_remover; i++) {
+            elems_remover[i] = sol->Comp(comb[i]);
+        }
+        /* e os remove */
+        for(int i=0; i < numero_elementos_remover; i++) {
+            sol->Remove(elems_remover[i]);
+        }
+
+        tem_mais_combinacoes = proxima_comb(comb, numero_elementos_remover, tamanho_da_sol);
+    }
+
+
+
+    
+    bool Trocou;
+    
+    int i_troca = 0,
+            roteador_troca = 0;
+
+    qtd_bl++;
+
+    Trocou = false;
+
+    
+
+    vector<int> vizinhos;
+    int corrente;
+    for (unsigned int i = 0; i < numserv; i++) {
+        corrente = sol->Comp(i);
+        ReconheceVizinhos(corrente, vizinhos);
+        for (unsigned int j = 0; j < vizinhos.size(); j++) {
+            sol->Troca(i, vizinhos[j]);
+            //       if(sol->Valor() < val_sol) {
+            if (defLessThan(sol->Valor(), val_sol)) {
+                Trocou = true;
+                i_troca = i;
+                roteador_troca = vizinhos[j];
+                val_sol = sol->Valor();
+            }
+            sol->Troca(i, corrente);
+        }
+        vizinhos.clear();
+    }
+
+    if (Trocou) {
+        sol->Troca(i_troca, roteador_troca);
+        return BuscaLocalQueRemoveElementos(sol, qtd_bl);
+    }
+
+    return sol;
 }
