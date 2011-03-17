@@ -58,7 +58,7 @@ PSOLUCAO GRASP::Executa ()
 
      if ( (pool_variou_apos_MD) && (pool_igual >= iter_pool_igual) ) {  //entao minera
 
-	// Extração de padrões
+	// Extraï¿½ï¿½o de padrï¿½es
 	padrao_atual = 0;
   	qtd_padroes = 0;
 	padroes.clear();
@@ -99,7 +99,7 @@ PSOLUCAO GRASP::Executa ()
     if (! padroes.empty())
 	    sol = Construcao (iter_cor, &(padroes[padrao_atual]));
     else
-	    sol = Construcao (iter_cor);
+	    sol = Construcao (iter_cor, NULL);
 
     times(&tf);
     t =  ((double)((tf.tms_utime - ti.tms_utime)) / sysconf(_SC_CLK_TCK));
@@ -108,8 +108,8 @@ PSOLUCAO GRASP::Executa ()
 
 
     /**
-      * Verifica se a solução já foi construída. Caso positivo, parte para a criação
-      * de outra. Caso negativo, adiciona ao conjunto de soluções criadas
+      * Verifica se a soluï¿½ï¿½o jï¿½ foi construï¿½da. Caso positivo, parte para a criaï¿½ï¿½o
+      * de outra. Caso negativo, adiciona ao conjunto de soluï¿½ï¿½es criadas
       */
  //   ParHash *solHash = &(sol->Hash());
  //   set<ParHash>::iterator it;

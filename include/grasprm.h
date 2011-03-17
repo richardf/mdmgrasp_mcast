@@ -25,7 +25,8 @@ protected:
   void      Finalizacao  (PSOLUCAO sol);
   
   
-  PSOLUCAO  Construcao   (int iter_cor, const vector<int>* sol_parcial = NULL);
+  PSOLUCAO  Construcao   (int iter_cor, const vector<int>* sol_parcial);
+  PSOLUCAO  Construcao   (int iter_cor, const vector<int>* sol_parcial, int qtdRemovidos, int elemens_removidos[]);
   PSOLUCAO  BuscaLocal   (PSOLUCAO sol, int& qtd_bl);
   PSOLUCAO  BuscaLocalQueRemoveElementos   (PSOLUCAO sol, int& qtd_bl, int numero_elementos_remover);
   bool proxima_comb(int comb[], int k, int n);

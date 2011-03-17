@@ -29,7 +29,7 @@ private:
                    min_sup, /** Suporte minimo*/
                    npadroes,
 				   iter_pool_igual; /** numero de iteracoes que o pool deve ficar igual p/ ocorrer uma md */;
-  set<ParHash>     construidas; /**set que armazena o hash das soluções iniciais já construídas */
+  set<ParHash>     construidas; /**set que armazena o hash das soluï¿½ï¿½es iniciais jï¿½ construï¿½das */
   ESTRATEGIA_MD    est;
 
 protected:
@@ -39,6 +39,8 @@ protected:
 
 
   virtual PSOLUCAO Construcao (int, const vector<int>* sol_parcial = NULL) = 0;
+  virtual PSOLUCAO Construcao (int iter_cor, const vector<int>* sol_parcial, int qtdRemovidos, int elemens_removidos[]) = 0;
+
   virtual PSOLUCAO BuscaLocal (PSOLUCAO sol, int& qtd_bl) = 0;
 
   virtual void Inicializacao    () { };
