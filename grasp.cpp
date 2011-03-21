@@ -144,7 +144,8 @@ PSOLUCAO GRASP::Executa ()
 
     qtd_bl = 0;
     times(&ti);
-    sol = BuscaLocal (sol,qtd_bl);
+//    sol = BuscaLocal (sol,qtd_bl);
+    sol = BuscaLocalQueRemoveElementos (sol,qtd_bl,1);
     times(&tf);
     t =  ((double)((tf.tms_utime - ti.tms_utime)) / sysconf(_SC_CLK_TCK));
 

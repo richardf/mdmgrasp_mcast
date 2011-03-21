@@ -147,11 +147,12 @@ void GRASPRM::DepoisConstrucao (int iter_cor, PSOLUCAO sol)
 }
 
 PSOLUCAO GRASPRM::Construcao (int iter_cor, const vector<int>* sol_parcial) {
-    return Construcao(iter_cor, sol_parcial, 0, NULL);
+    return Construcao(sol_parcial, NULL);
 }
 
 
-PSOLUCAO GRASPRM::Construcao (int iter_cor, const vector<int>* sol_parcial, int qtdRemovidos, int elemens_removidos[])
+//PSOLUCAO GRASPRM::Construcao (int iter_cor, const vector<int>* sol_parcial, int qtdRemovidos, int elemens_removidos[])
+PSOLUCAO GRASPRM::Construcao (const vector<int>* sol_parcial, vector<int>* elemens_removidos)
 { 
   unsigned int    ultimo;      // indice do ultimo candidato que pertence a LRC
   float           minimo;      // valor m�nimo para um candidato entrar na LRC
@@ -188,9 +189,20 @@ PSOLUCAO GRASPRM::Construcao (int iter_cor, const vector<int>* sol_parcial, int 
       }
 
       // cout << "\tTOTAL: " << custo_aux << "\n";
+      bool deveInserir = true;
+      if (elemens_removidos != NULL) {
+        //verifica se o elemento candidato foi removido anteriormente da solucao
+        //se for, ele nao eh adicionado a LRC
+        vector<int>::iterator it = find(elemens_removidos->begin(), elemens_removidos->end(), sol->Diff(i));
+        if (it != elemens_removidos->end()) {
+             cout << "elemen esta" << endl;
+             deveInserir = false;
+        }
+      }
 
-      insereOrdenado(CustosOrd, sol->Diff(i), custo_aux);
-
+      if(deveInserir) {
+            insereOrdenado(CustosOrd, sol->Diff(i), custo_aux);
+      }
     }
 
     // Calcula valor m�nimo para entrar na LRC
@@ -210,7 +222,6 @@ PSOLUCAO GRASPRM::Construcao (int iter_cor, const vector<int>* sol_parcial, int 
     //cout << " ESCOLHIDO: " << x << "\n";
 
     sol->Adic(CustosOrd[x].first);
-
     //cout << "Entrou: " << CustosOrd[x].first << "\n";
 
     CustosOrd.clear();
@@ -314,9 +325,11 @@ PSOLUCAO GRASPRM::BuscaLocalQueRemoveElementos(PSOLUCAO sol, int& qtd_bl, int nu
     int tamanho_da_sol = sol->Quant(); 
     int comb[numero_elementos_remover]; /* comb[i] eh o indice do i-esimo elemento da combinacao.
                                          * Este vetor indica os elementos que serao removidos da solucao */
-    int elems_remover[numero_elementos_remover];
+    vector<int> elems_remover;
     double val_sol;
+    PSOLUCAO nova_sol;
 
+    qtd_bl++;
 
     /* Prepara comb para a combinacao inicial */
     for (int i = 0; i < numero_elementos_remover; ++i)
@@ -332,7 +345,7 @@ PSOLUCAO GRASPRM::BuscaLocalQueRemoveElementos(PSOLUCAO sol, int& qtd_bl, int nu
         
         /* separa os elementos a serem removidos */
         for(int i=0; i < numero_elementos_remover; i++) {
-            elems_remover[i] = sol->Comp(comb[i]);
+            elems_remover.push_back(sol->Comp(comb[i]));
         }
 
         /* e os remove */
@@ -341,17 +354,28 @@ PSOLUCAO GRASPRM::BuscaLocalQueRemoveElementos(PSOLUCAO sol, int& qtd_bl, int nu
         }
 
         //chama a fase de construcao
-        
+        vector<int> solVec = sol->tovector();
+        nova_sol = Construcao(&solVec, &elems_remover);
 
-        if (defLessThan(sol->Valor(), val_sol)) {
+        if (defLessThan(nova_sol->Valor(), val_sol)) {
             sol_melhorou = true;
-            return BuscaLocalQueRemoveElementos(sol, qtd_bl, numero_elementos_remover);
+            delete sol;
+            sol = nova_sol;
+            sol = BuscaLocalQueRemoveElementos(sol, qtd_bl, numero_elementos_remover);
         }
+        else {
+            //restaura a solucao
+            for (int i = 0; i < numero_elementos_remover; i++) {
+                sol->Adic(elems_remover[i]);
+            }
+        }
+        delete nova_sol;
 
         tem_mais_combinacoes = proxima_comb(comb, numero_elementos_remover, tamanho_da_sol);
+        elems_remover.clear();
     }
 
-
+    return sol;
 
     
 //    bool Trocou;

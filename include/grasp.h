@@ -39,9 +39,10 @@ protected:
 
 
   virtual PSOLUCAO Construcao (int, const vector<int>* sol_parcial = NULL) = 0;
-  virtual PSOLUCAO Construcao (int iter_cor, const vector<int>* sol_parcial, int qtdRemovidos, int elemens_removidos[]) = 0;
+  virtual PSOLUCAO Construcao (const vector<int>* sol_parcial, vector<int>* elemens_removidos) = 0;
 
   virtual PSOLUCAO BuscaLocal (PSOLUCAO sol, int& qtd_bl) = 0;
+  virtual PSOLUCAO BuscaLocalQueRemoveElementos   (PSOLUCAO sol, int& qtd_bl, int numero_elementos_remover) = 0;
 
   virtual void Inicializacao    () { };
 
