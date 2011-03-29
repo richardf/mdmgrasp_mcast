@@ -195,7 +195,6 @@ PSOLUCAO GRASPRM::Construcao (const vector<int>* sol_parcial, vector<int>* eleme
         //se for, ele nao eh adicionado a LRC
         vector<int>::iterator it = find(elemens_removidos->begin(), elemens_removidos->end(), sol->Diff(i));
         if (it != elemens_removidos->end()) {
-             cout << "elemen esta" << endl;
              deveInserir = false;
         }
       }
@@ -369,49 +368,10 @@ PSOLUCAO GRASPRM::BuscaLocalQueRemoveElementos(PSOLUCAO sol, int& qtd_bl, int nu
                 sol->Adic(elems_remover[i]);
             }
         }
-        delete nova_sol;
 
         tem_mais_combinacoes = proxima_comb(comb, numero_elementos_remover, tamanho_da_sol);
         elems_remover.clear();
     }
-
-    return sol;
-
-    
-//    bool Trocou;
-//
-//    int i_troca = 0,
-//            roteador_troca = 0;
-//
-//    qtd_bl++;
-//
-//    Trocou = false;
-//
-//
-//
-//    vector<int> vizinhos;
-//    int corrente;
-//    for (unsigned int i = 0; i < numserv; i++) {
-//        corrente = sol->Comp(i);
-//        ReconheceVizinhos(corrente, vizinhos);
-//        for (unsigned int j = 0; j < vizinhos.size(); j++) {
-//            sol->Troca(i, vizinhos[j]);
-//            //       if(sol->Valor() < val_sol) {
-//            if (defLessThan(sol->Valor(), val_sol)) {
-//                Trocou = true;
-//                i_troca = i;
-//                roteador_troca = vizinhos[j];
-//                val_sol = sol->Valor();
-//            }
-//            sol->Troca(i, corrente);
-//        }
-//        vizinhos.clear();
-//    }
-//
-//    if (Trocou) {
-//        sol->Troca(i_troca, roteador_troca);
-//        return BuscaLocalQueRemoveElementos(sol, qtd_bl, 0);
-//    }
 
     return sol;
 }

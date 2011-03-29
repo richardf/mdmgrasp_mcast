@@ -6,14 +6,14 @@
 
 # Macros
 TOP=`pwd`
-CND_PLATFORM=GNU-Linux-x86
+CND_PLATFORM=GNU-MacOSX
 CND_CONF=Default
 CND_DISTDIR=dist
-TMPDIR=build/${CND_CONF}/${CND_PLATFORM}/tmp-packaging
+NBTMPDIR=build/${CND_CONF}/${CND_PLATFORM}/tmp-packaging
 TMPDIRNAME=tmp-packaging
 OUTPUT_PATH=MissingOutputInProject
 OUTPUT_BASENAME=MissingOutputInProject
-PACKAGE_TOP_DIR=mdmgraspcurrent/
+PACKAGE_TOP_DIR=mdmgraspmcast/
 
 # Functions
 function checkReturnCode
@@ -53,22 +53,22 @@ function copyFileToTmpDir
 # Setup
 cd "${TOP}"
 mkdir -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/package
-rm -rf ${TMPDIR}
-mkdir -p ${TMPDIR}
+rm -rf ${NBTMPDIR}
+mkdir -p ${NBTMPDIR}
 
 # Copy files and create directories and links
 cd "${TOP}"
-makeDirectory ${TMPDIR}/mdmgraspcurrent/bin
-copyFileToTmpDir "${OUTPUT_PATH}" "${TMPDIR}/${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}" 0755
+makeDirectory "${NBTMPDIR}/mdmgraspmcast/bin"
+copyFileToTmpDir "${OUTPUT_PATH}" "${NBTMPDIR}/${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}" 0755
 
 
 # Generate tar file
 cd "${TOP}"
-rm -f ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/package/mdmgraspcurrent.tar
-cd ${TMPDIR}
-tar -vcf ../../../../${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/package/mdmgraspcurrent.tar *
+rm -f ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/package/mdmgraspmcast.tar
+cd ${NBTMPDIR}
+tar -vcf ../../../../${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/package/mdmgraspmcast.tar *
 checkReturnCode
 
 # Cleanup
 cd "${TOP}"
-rm -rf ${TMPDIR}
+rm -rf ${NBTMPDIR}
