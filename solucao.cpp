@@ -131,6 +131,20 @@ ParHash& SOLUCAO::Hash()
     return *ptr;
 }
 
+void SOLUCAO::setvector(vector<int> novoM)
+{
+    
+    while(M.size()>0){
+        
+        Remove(M[0]);
+    }
+
+    for(int j=0;j<novoM.size();j++){
+        
+        Adic(novoM[j]);
+    }
+}
+
 std::vector<int> SOLUCAO::tovector() {
   return M;
 }

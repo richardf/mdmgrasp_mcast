@@ -218,6 +218,7 @@ PSOLUCAO GRASP::Exec (PCOMPTIME tempo)
   times(&tf);
   t =  (((double) (tf.tms_utime - ti.tms_utime)) / sysconf(_SC_CLK_TCK)) + (((double) (tf.tms_cutime - ti.tms_cutime)) / sysconf(_SC_CLK_TCK));
 
+  cout << "VALOR\t" << sol->Valor() << "\n";
   cout << "TEMPO\t" << t << "\n SOLUCAO: ";
   sol->Exibe();
   if (tempo != NULL)

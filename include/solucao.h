@@ -48,6 +48,7 @@ public:
   ParHash&   Hash();	        //retorna o valor hash da solu��o
 
   std::vector<int> tovector();
+  void setvector(vector<int> novoM);
 
   friend class GRASPRM;
 };

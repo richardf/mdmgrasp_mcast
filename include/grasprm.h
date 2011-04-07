@@ -24,7 +24,7 @@ protected:
   void      Inicializacao();
   void      Finalizacao  (PSOLUCAO sol);
   
-  
+  PSOLUCAO  ReconstituiSolucao(const vector<int>* sol_parcial);
   PSOLUCAO  Construcao   (int iter_cor, const vector<int>* sol_parcial);
   PSOLUCAO  Construcao   (const vector<int>* sol_parcial, vector<int>* elemens_removidos);
   PSOLUCAO  BuscaLocal   (PSOLUCAO sol, int& qtd_bl);

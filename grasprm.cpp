@@ -77,7 +77,7 @@ void GRASPRM::ConstroiArvores (char* arq_instancia)
 {
   vector<ARESTA> arestas;
   ARESTA aresta;
-  int qtd_fontes, fonte, qtd_arestas;
+    int qtd_fontes, fonte, qtd_arestas;
 
   ifstream instancia(arq_instancia);
 
@@ -150,6 +150,22 @@ PSOLUCAO GRASPRM::Construcao (int iter_cor, const vector<int>* sol_parcial) {
     return Construcao(sol_parcial, NULL);
 }
 
+PSOLUCAO GRASPRM::ReconstituiSolucao(const vector<int>* sol_parcial)
+{
+    PSOLUCAO        sol;         // Guarda a solucao construida
+    unsigned int    j;
+    // Cria uma nova solucao
+    sol = new SOLUCAO(this);
+    // Inicia a solu��o com os elementos da solu��o parcial
+    j = 0;
+    if(sol_parcial != NULL) {
+     j = sol_parcial->size();
+     for(unsigned int i = 0; i < j; i++) {
+         sol->Adic ((*sol_parcial)[i]);
+     }
+    }
+    return sol;
+}
 
 //PSOLUCAO GRASPRM::Construcao (int iter_cor, const vector<int>* sol_parcial, int qtdRemovidos, int elemens_removidos[])
 PSOLUCAO GRASPRM::Construcao (const vector<int>* sol_parcial, vector<int>* elemens_removidos)
@@ -180,12 +196,12 @@ PSOLUCAO GRASPRM::Construcao (const vector<int>* sol_parcial, vector<int>* eleme
     // Para cada roteador candidato
     for (i = 0; i < sol->DiffQuant(); i++) {
       custo_aux = 0;
-      //cout << "N� que ser� avaliado: " << sol->Diff(i) << "\n";
+      //cout << "No que sera avaliado: " << sol->Diff(i) << "\n";
 
       // Para cada �rvore
       for(unsigned int a = 0; a < arvores.size(); a++) {
          custo_aux += (arvores[a])->CustoNo(sol->Diff(i));
-	 //cout << "\tCusto na �rvore \"" << a << "\": " << (arvores[a])->CustoNo(sol->Diff(i)) << "\n";
+	 //cout << "\tCusto na arvore \"" << a << "\": " << (arvores[a])->CustoNo(sol->Diff(i)) << "\n";
       }
 
       // cout << "\tTOTAL: " << custo_aux << "\n";
@@ -203,7 +219,11 @@ PSOLUCAO GRASPRM::Construcao (const vector<int>* sol_parcial, vector<int>* eleme
             insereOrdenado(CustosOrd, sol->Diff(i), custo_aux);
       }
     }
-
+    printf("\nRCL:");
+    for(int k=0;k<CustosOrd.size();k++)
+        printf(" %f;",CustosOrd[k].second);
+    printf("\n");
+   
     // Calcula valor m�nimo para entrar na LRC
     minimo = alfa * CustosOrd[0].second;
 
@@ -213,6 +233,12 @@ PSOLUCAO GRASPRM::Construcao (const vector<int>* sol_parcial, vector<int>* eleme
     for(ultimo = 0; CustosOrd[ultimo].second >= minimo; ultimo++);
 
     if(ultimo > CustosOrd.size()) ultimo = CustosOrd.size();
+
+    printf("\nRCL[%f]:",alfa);
+    for(int k=0;k<ultimo;k++)
+        printf(" %f;",CustosOrd[k].second);
+    printf("\n");
+    getchar();
 
     //cout << " TAMANHO DA RCL: " << ultimo;
 
@@ -327,8 +353,12 @@ PSOLUCAO GRASPRM::BuscaLocalQueRemoveElementos(PSOLUCAO sol, int& qtd_bl, int nu
     vector<int> elems_remover;
     double val_sol;
     PSOLUCAO nova_sol;
+    vector<int> corrente_elem;
 
     qtd_bl++;
+
+    //printf("\niniciar bl %d <aperte enter>",qtd_bl);
+    //getchar();
 
     /* Prepara comb para a combinacao inicial */
     for (int i = 0; i < numero_elementos_remover; ++i)
@@ -338,9 +368,14 @@ PSOLUCAO GRASPRM::BuscaLocalQueRemoveElementos(PSOLUCAO sol, int& qtd_bl, int nu
     bool tem_mais_combinacoes = true;
     bool sol_melhorou = false;
 
+    
     while(!sol_melhorou && tem_mais_combinacoes) {
-
+        corrente_elem = sol->tovector();
+        //printf("\niniciar it <aperte enter>\n");
+        //getchar();
         val_sol = sol->Valor();
+        //printf("solucao inicial [%f]:",val_sol);
+        //sol->Exibe(NULL);
         
         /* separa os elementos a serem removidos */
         for(int i=0; i < numero_elementos_remover; i++) {
@@ -349,26 +384,35 @@ PSOLUCAO GRASPRM::BuscaLocalQueRemoveElementos(PSOLUCAO sol, int& qtd_bl, int nu
 
         /* e os remove */
         for(int i=0; i < numero_elementos_remover; i++) {
+          //  printf("removendo %d\n",elems_remover[i]);
             sol->Remove(elems_remover[i]);
         }
 
         //chama a fase de construcao
         vector<int> solVec = sol->tovector();
         nova_sol = Construcao(&solVec, &elems_remover);
+        //printf("construiu nova solucao [%f]:",nova_sol->Valor());
+        //nova_sol->Exibe(NULL);
 
         if (defLessThan(nova_sol->Valor(), val_sol)) {
-            sol_melhorou = true;
+            //printf("achou solucao melhor\n");
             delete sol;
             sol = nova_sol;
             sol = BuscaLocalQueRemoveElementos(sol, qtd_bl, numero_elementos_remover);
+            sol_melhorou = true;
         }
         else {
             //restaura a solucao
-            for (int i = 0; i < numero_elementos_remover; i++) {
-                sol->Adic(elems_remover[i]);
-            }
+            //printf("proxima combinacao\n");
+            //for (int i = 0; i < numero_elementos_remover; i++) {
+            //    sol->Adic(elems_remover[i]);
+            //}
+            //sol = Construcao(&corrente_elem,NULL);
+            //sol->setvector(corrente_elem);
+            sol = ReconstituiSolucao(&corrente_elem);
+            //printf("solucao end: %f: ",sol->Valor());
+            //sol->Exibe(NULL);
         }
-
         tem_mais_combinacoes = proxima_comb(comb, numero_elementos_remover, tamanho_da_sol);
         elems_remover.clear();
     }
